@@ -54,7 +54,10 @@ runs:
         OS=${{ inputs.os }}
         IS_WINDOWS=false; [[ $OS == windows-* ]] && IS_WINDOWS=true
 
-        if [[ $IS_WINDOWS = false ]] && ! rustup self update; then
+        if [[ $IS_WINDOWS = true ]] ;
+        then
+          echo "skipping self update on windows runner due to https://github.com/rust-lang/rustup/issues/3709"
+        elif ! rustup self update; then
             echo "rustup self update failed"
         fi
         
@@ -65,6 +68,7 @@ runs:
 
         if [[ $IS_WINDOWS = true ]];
         then
+            echo "skipping self update on windows runner due to https://github.com/rust-lang/rustup/issues/3709"
             rustup update --no-self-update
         else
             rustup update
