@@ -48,13 +48,12 @@ runs:
       shell: bash
       run: |
 
-        echo ${{ inputs.os }}
         # self update is currently broken on Windows runners:
         #   https://github.com/rust-lang/rustup/issues/3709
         # so we'll skip self update for windows
         OS=${{ inputs.os }}
-        IS_WINDOWS=false; [[ $OS == windows-* ]] && IS_WINDOWS=true
-
+        IS_WINDOWS=false; [[ $OS =~ ^[wW]indows ]] && IS_WINDOWS=true
+        
         if [[ $IS_WINDOWS = true ]] ;
         then
           echo "skipping self update on windows runner due to https://github.com/rust-lang/rustup/issues/3709"
